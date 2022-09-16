@@ -130,3 +130,7 @@ dmypy.json
 
 # .idea
 .idea
+
+# for frontend
+frontend/node_modules
+frontend/build
