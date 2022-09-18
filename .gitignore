@@ -134,3 +134,7 @@ dmypy.json
 # for frontend
 frontend/node_modules
 frontend/build
+
+/pyproject.toml
+
+.vscode/
