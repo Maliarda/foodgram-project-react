@@ -1,16 +1,11 @@
-from django.db import models
+from .models import Tag
+from rest_framework import permissions, status, viewsets
+from api.permissions import IsAdminOrReadOnly
+from tags.serializers import TagSerializer
 
 
-class Tag(models.Model):
-    name = models.CharField(
-        max_length=256,
-        verbose_name="Название тэга",
-    )
-
-    color = models.Col
-
-    slug = models.SlugField(
-        max_length=100,
-        unique=True,
-        verbose_name="Идентификатор тэга",
-    )
+class TagViewSet(viewsets.ReadOnlyModelViewSet):
+    queryset = Tag.objects.all()
+    serializer_class = TagSerializer
+    pagination_class = None
+    permission_classes = (IsAdminOrReadOnly,)
