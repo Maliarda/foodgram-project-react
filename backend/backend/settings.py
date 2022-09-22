@@ -38,9 +38,11 @@ INSTALLED_APPS = [
     "django.contrib.staticfiles",
     "users.apps.UsersConfig",
     "api.apps.ApiConfig",
+    "tags.apps.TagsConfig",
     "rest_framework",
     "rest_framework.authtoken",
     "djoser",
+    "colorfield",
 ]
 
 MIDDLEWARE = [

@@ -13,3 +13,4 @@ class TagSerializer(serializers.ModelSerializer):
             "color",
             "slug",
         )
+        extra_kwargs = {"url": {"lookup_field": "id"}}
