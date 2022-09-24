@@ -4,3 +4,8 @@ sqlparse==0.4.2
 psycopg2==2.8.6
 djangorestframework==3.12.4
 djoser==2.1.0
+django-colorfield==0.7.2
+requests==2.28.1
+django-filter==22.1
+drf-extra-fields==3.2.1
+drf-base64==2.0

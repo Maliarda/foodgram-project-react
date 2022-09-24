@@ -1,6 +1,6 @@
 from .models import Tag
 from rest_framework import permissions, status, viewsets
-from api.permissions import IsAdminOrReadOnly
+from recipes.permissions import IsAdminOrReadOnly
 from tags.serializers import TagSerializer
 
 
