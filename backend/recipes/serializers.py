@@ -106,17 +106,24 @@ class AddRecipeSerializer(serializers.ModelSerializer):
             )
 
     def create(self, validated_data):
-        request = self.context.get("request")
-        # author = self.context.get("request").user
+        author = self.context.get("request").user
         tags_data = validated_data.pop("tags")
         ingredients_data = validated_data.pop("ingredients")
         image = validated_data.pop("image")
         recipe = Recipe.objects.create(
-            image=image, author=request.user, **validated_data
+            image=image, author=author, **validated_data
         )
         self.add_ingredients(ingredients_data, recipe)
         recipe.tags.set(tags_data)
         return recipe
+
+    def update(self, recipe, validated_data):
+        ingredients = validated_data.pop("ingredients")
+        tags = validated_data.pop("tags")
+        RecipeIngredient.objects.filter(recipe=recipe).delete()
+        self.add_ingredients(ingredients, recipe)
+        recipe.tags.set(tags)
+        return super().update(recipe, validated_data)
 
     def to_representation(self, recipe):
         data = ShowRecipeSerializer(
@@ -127,7 +134,7 @@ class AddRecipeSerializer(serializers.ModelSerializer):
 
 class ShowRecipeSerializer(serializers.ModelSerializer):
     """
-    Сериализатор для работы с рецептами.
+    Сериализатор для отображения рецепта.
     """
 
     tags = TagSerializer(many=True, read_only=True)

@@ -3,6 +3,15 @@ from django.db import models
 
 
 class User(AbstractUser):
+    USER = "user"
+    MODERATOR = "moderator"
+    ADMIN = "admin"
+    ROLES = {
+        (USER, "user"),
+        (MODERATOR, "moderator"),
+        (ADMIN, "admin"),
+    }
+
     email = models.EmailField(
         verbose_name="Электронная почта",
         unique=True,
@@ -33,6 +42,13 @@ class User(AbstractUser):
         help_text="Введите пароль",
     )
 
+    role = models.CharField(
+        verbose_name="Статус",
+        max_length=20,
+        choices=ROLES,
+        default=USER,
+    )
+
     REQUIRED_FIELDS = [
         "email",
         "first_name",
@@ -42,3 +58,37 @@ class User(AbstractUser):
 
     def __str__(self):
         return self.username
+
+    @property
+    def is_moderator(self):
+        return self.is_staff or self.role == self.MODERATOR
+
+    @property
+    def is_admin(self):
+        return self.is_superuser or self.role == self.ADMIN
+
+
+class Follow(models.Model):
+    user = models.ForeignKey(
+        User,
+        on_delete=models.CASCADE,
+        related_name="follower",
+        verbose_name="Подписчик",
+    )
+    author = models.ForeignKey(
+        User,
+        on_delete=models.CASCADE,
+        related_name="following",
+        verbose_name="Автор",
+    )
+
+    class Meta:
+        constraints = (
+            models.UniqueConstraint(
+                fields=(
+                    "user",
+                    "author",
+                ),
+                name="unique_follow",
+            ),
+        )

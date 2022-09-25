@@ -140,6 +140,7 @@ STATIC_ROOT = os.path.join(BASE_DIR, "static")
 MEDIA_URL = "/media/"
 MEDIA_ROOT = os.path.join(BASE_DIR, "media")
 
+
 AUTH_USER_MODEL = "users.User"
 
 REST_FRAMEWORK = {
@@ -165,7 +166,10 @@ DJOSER = {
         "current_user": "users.serializers.CustomUserSerializer",
     },
     "PERMISSIONS": {
-        "user": ["djoser.permissions.CurrentUserOrAdminOrReadOnly"],
+        # "user": ["djoser.permissions.CurrentUserOrAdminOrReadOnly"],
+        "user": ["rest_framework.permissions.AllowAny"],
         "user_list": ["rest_framework.permissions.AllowAny"],
     },
 }
+
+DEFAULT_AUTO_FIELD = "django.db.models.BigAutoField"

@@ -1,7 +1,10 @@
+from django.contrib.auth import get_user_model
 from django.db import models
 from tags.models import Tag
 from users.models import User
 from django.core.validators import MinValueValidator
+
+User = get_user_model()
 
 
 class Ingredient(models.Model):
@@ -15,6 +18,11 @@ class Ingredient(models.Model):
     measurement_unit = models.CharField(
         max_length=200, verbose_name="Единица измерения"
     )
+
+    class Meta:
+        ordering = ["id"]
+        verbose_name = "Ингредиент"
+        verbose_name_plural = "Ингредиенты"
 
     def __str__(self):
         return self.name
@@ -89,4 +97,14 @@ class RecipeIngredient(models.Model):
             MinValueValidator(1, message="Укажите количество больше нуля!"),
         ),
         verbose_name="Количество ингредиента",
+    )
+
+    constraints = (
+        models.UniqueConstraint(
+            fields=(
+                "ingredient",
+                "recipe",
+            ),
+            name="unique ingredient recipe",
+        ),
     )
