@@ -1,14 +1,15 @@
 from django.contrib.auth import get_user_model
+from django.core.validators import MinValueValidator
 from django.db import models
+
 from tags.models import Tag
 from users.models import User
-from django.core.validators import MinValueValidator
 
 User = get_user_model()
 
 
 class Ingredient(models.Model):
-    """Ингредиент"""
+    """Ингредиент."""
 
     name = models.CharField(
         max_length=200,
@@ -29,7 +30,7 @@ class Ingredient(models.Model):
 
 
 class Recipe(models.Model):
-    """Рецепт"""
+    """Рецепт."""
 
     ingredients = models.ManyToManyField(
         Ingredient,
@@ -78,6 +79,7 @@ class Recipe(models.Model):
 
 
 class RecipeIngredient(models.Model):
+    """Ингридент в рецепте, модель связи."""
 
     recipe = models.ForeignKey(
         Recipe,
@@ -109,8 +111,14 @@ class RecipeIngredient(models.Model):
         ),
     )
 
+    class Meta:
+        verbose_name = "Ингредиент рецепта"
+        verbose_name_plural = "Ингредиенты рецептов"
+
 
 class FavoriteRecipe(models.Model):
+    """Избранное."""
+
     user = models.ForeignKey(
         User,
         on_delete=models.CASCADE,
@@ -135,11 +143,13 @@ class FavoriteRecipe(models.Model):
 
 
 class ShoppingCart(models.Model):
+    """Список покупок."""
+
     user = models.ForeignKey(
         User,
         on_delete=models.CASCADE,
         related_name="shopping_cart",
-        verbose_name="Пользоавтель",
+        verbose_name="Пользователь",
     )
     recipe = models.ForeignKey(
         Recipe,
@@ -147,9 +157,7 @@ class ShoppingCart(models.Model):
         related_name="shopping_cart",
         verbose_name="Покупка",
     )
-    # added = models.DateTimeField(
-    #     auto_now_add=True, verbose_name="Дата добавления в список покупок"
-    # )
 
     class Meta:
         verbose_name = "Покупки"
+        verbose_name_plural = "Покупки"

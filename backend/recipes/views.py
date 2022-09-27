@@ -1,39 +1,35 @@
-from .models import (
-    Ingredient,
-    Recipe,
-    FavoriteRecipe,
-    ShoppingCart,
-    RecipeIngredient,
-)
-from rest_framework import permissions, status, viewsets
-from recipes.permissions import IsAdminOrReadOnly, IsAdminAuthorOrReadOnly
-from .serializers import (
-    IngredientSerializer,
-    FavoriteRecipeSerializer,
-    ShoppingCartSerializer,
-)
-from django_filters.rest_framework import DjangoFilterBackend
-from recipes.serializers import AddRecipeSerializer, ShowRecipeSerializer
-from rest_framework.views import APIView
-from rest_framework.permissions import (
-    AllowAny,
-    IsAuthenticated,
-    IsAuthenticatedOrReadOnly,
-)
-from rest_framework.response import Response
-from rest_framework.generics import ListAPIView, get_object_or_404
 from django.http import HttpResponse
+from django_filters.rest_framework import DjangoFilterBackend
+from rest_framework import status, viewsets
+from rest_framework.generics import get_object_or_404
+from rest_framework.permissions import IsAuthenticated
+from rest_framework.response import Response
+from rest_framework.views import APIView
+
+from recipes.permissions import IsAdminAuthorOrReadOnly, IsAdminOrReadOnly
+from recipes.serializers import AddRecipeSerializer, ShowRecipeSerializer
+
+from .filters import IngredientSearchFilter, RecipeFilter
+from .models import (FavoriteRecipe, Ingredient, Recipe, RecipeIngredient,
+                     ShoppingCart)
+from .serializers import (FavoriteRecipeSerializer, IngredientSerializer,
+                          ShoppingCartSerializer)
 
 
 class IngredientViewSet(viewsets.ReadOnlyModelViewSet):
+    """Вьюсет для обработки ингредиентов."""
+
     queryset = Ingredient.objects.all()
     serializer_class = IngredientSerializer
     permission_classes = (IsAdminOrReadOnly,)
     pagination_class = None
     filter_backends = (DjangoFilterBackend,)
+    filterset_class = IngredientSearchFilter
 
 
 class RecipeViewSet(viewsets.ModelViewSet):
+    """Вьюсет для обработки рецептов."""
+
     queryset = Recipe.objects.all()
     filter_backends = [DjangoFilterBackend]
     permission_classes = (IsAdminAuthorOrReadOnly,)
@@ -43,6 +39,7 @@ class RecipeViewSet(viewsets.ModelViewSet):
         "retrieve": ShowRecipeSerializer,
         "list": ShowRecipeSerializer,
     }
+    filterset_class = RecipeFilter
 
     def get_serializer_class(self):
         return self.serializer_classes.get(
@@ -51,6 +48,8 @@ class RecipeViewSet(viewsets.ModelViewSet):
 
 
 class FavoriteRecipeApiView(APIView):
+    """Апивью для избранного."""
+
     permission_classes = (IsAuthenticated,)
 
     def post(self, request, favorite_id):
@@ -73,12 +72,14 @@ class FavoriteRecipeApiView(APIView):
         return Response(status=status.HTTP_204_NO_CONTENT)
 
 
-class ShoppingCartView(APIView):
+class ShoppingCartApiView(APIView):
+    """Апивью для покупок."""
+
     permission_classes = [
         IsAuthenticated,
     ]
 
-    def get(self, request, recipe_id):
+    def post(self, request, recipe_id):
         user = request.user
         data = {"recipe": recipe_id, "user": user.id}
         context = {"request": request}
@@ -97,7 +98,9 @@ class ShoppingCartView(APIView):
         return Response(status=status.HTTP_204_NO_CONTENT)
 
 
-class DownloadShoppingCart(APIView):
+class DownloadShoppingCartApiView(APIView):
+    """Апивью для выгрузки списка покупок."""
+
     permission_classes = [
         IsAuthenticated,
     ]
@@ -105,7 +108,7 @@ class DownloadShoppingCart(APIView):
     def get(self, request):
         shopping_list = {}
         ingredients = RecipeIngredient.objects.filter(
-            recipe__purchases__user=request.user
+            recipe__shopping_cart__user=request.user
         )
         for ingredient in ingredients:
             amount = ingredient.amount
@@ -118,11 +121,14 @@ class DownloadShoppingCart(APIView):
                 }
             else:
                 shopping_list[name]["amount"] += amount
-        main_list = [
-            f"* {item}:{value['amount']}" f"{value['measurement_unit']}\n"
-            for item, value in shopping_list.items()
-        ]
-        main_list.append(f"\n My ")
-        response = HttpResponse(main_list, "Content-Type: text/plain")
-        response["Content-Disposition"] = 'attachment; filename="BuyList.txt"'
+        main_list = sorted(
+            [
+                f"{item}: {value['amount']} {value['measurement_unit']}\n"
+                for item, value in shopping_list.items()
+            ]
+        )
+        response = HttpResponse(main_list, content_type="text/plain")
+        response[
+            "Content-Disposition"
+        ] = 'attachment; filename="shoppint_list.txt"'
         return response

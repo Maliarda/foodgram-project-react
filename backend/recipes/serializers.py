@@ -1,20 +1,14 @@
-from urllib import request
-from recipes.models import (
-    Ingredient,
-    RecipeIngredient,
-    Recipe,
-    FavoriteRecipe,
-    ShoppingCart,
-)
-from rest_framework import serializers
-from tags.models import Tag
-from drf_base64.fields import Base64ImageField
-from users.serializers import CustomUserSerializer
-from tags.serializers import TagSerializer
 from django.db.models import F
+from drf_base64.fields import Base64ImageField
+from rest_framework import serializers
 from rest_framework.exceptions import ValidationError
 from rest_framework.validators import UniqueTogetherValidator
-from django.db import transaction
+
+from recipes.models import (FavoriteRecipe, Ingredient, Recipe,
+                            RecipeIngredient, ShoppingCart)
+from tags.models import Tag
+from tags.serializers import TagSerializer
+from users.serializers import CustomUserSerializer
 
 
 class IngredientSerializer(serializers.ModelSerializer):
@@ -123,7 +117,6 @@ class AddRecipeSerializer(serializers.ModelSerializer):
             )
 
     def create(self, validated_data):
-
         author = self.context.get("request").user
         tags_data = validated_data.pop("tags")
         ingredients_data = validated_data.pop("ingredients")
@@ -190,6 +183,8 @@ class ShowRecipeSerializer(serializers.ModelSerializer):
 
 
 class FavoriteRecipeSerializer(serializers.ModelSerializer):
+    """Сериализатор избранного."""
+
     class Meta:
         fields = ("user", "recipe")
         model = FavoriteRecipe
@@ -209,6 +204,8 @@ class FavoriteRecipeSerializer(serializers.ModelSerializer):
 
 
 class ShoppingCartSerializer(serializers.ModelSerializer):
+    """Сериализатор списка покупок."""
+
     class Meta:
         model = ShoppingCart
         fields = ("user", "recipe")

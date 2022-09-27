@@ -1,22 +1,21 @@
-from django.shortcuts import render
-from users.models import User, Follow
-from rest_framework import filters, permissions, status, viewsets
-from rest_framework import permissions
-from rest_framework.decorators import action, api_view, permission_classes
-from users.serializers import CustomUserSerializer, FollowSerializer
+from djoser.views import UserViewSet
+from rest_framework import status
+from rest_framework.generics import ListAPIView, get_object_or_404
 from rest_framework.permissions import (
-    AllowAny,
     IsAuthenticated,
     IsAuthenticatedOrReadOnly,
 )
-from djoser.views import UserViewSet
-from rest_framework.views import APIView
 from rest_framework.response import Response
-from rest_framework.generics import ListAPIView, get_object_or_404
+from rest_framework.views import APIView
+
 from backend.pagination import LimitPageNumberPaginator
+from users.models import Follow, User
+from users.serializers import CustomUserSerializer, FollowSerializer
 
 
 class CustomUserViewSet(UserViewSet):
+    """Вьюсет для пользователя."""
+
     queryset = User.objects.all()
     serializer_class = CustomUserSerializer
     permission_classes = [
@@ -25,7 +24,7 @@ class CustomUserViewSet(UserViewSet):
 
 
 class FollowViewSet(APIView):
-    """Апивью подписки и отписки"""
+    """Апивью подписки и отписки."""
 
     serializer_class = FollowSerializer
     permission_classes = [IsAuthenticated]

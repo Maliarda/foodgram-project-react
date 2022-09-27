@@ -1,10 +1,9 @@
+from django.contrib.auth import get_user_model
 from djoser.serializers import UserCreateSerializer, UserSerializer
 from rest_framework import serializers
-from users.models import User, Follow
-from rest_framework.relations import SlugRelatedField
-from rest_framework.validators import UniqueTogetherValidator
+
 from recipes.models import Recipe
-from django.contrib.auth import get_user_model
+from users.models import Follow, User
 
 User = get_user_model()
 
@@ -37,7 +36,7 @@ class CreateUserSerializer(UserCreateSerializer):
 
 
 class CustomUserSerializer(UserSerializer):
-    """Сериализатор для отображения пользователя"""
+    """Сериализатор для отображения пользователя."""
 
     is_subscribed = serializers.SerializerMethodField(read_only=True)
 

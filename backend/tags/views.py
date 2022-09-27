@@ -1,7 +1,9 @@
-from .models import Tag
-from rest_framework import permissions, status, viewsets
+from rest_framework import viewsets
+
 from recipes.permissions import IsAdminOrReadOnly
 from tags.serializers import TagSerializer
+
+from .models import Tag
 
 
 class TagViewSet(viewsets.ReadOnlyModelViewSet):

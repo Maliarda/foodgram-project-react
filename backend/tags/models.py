@@ -1,8 +1,10 @@
-from django.db import models
 from colorfield.fields import ColorField
+from django.db import models
 
 
 class Tag(models.Model):
+    """Тэг."""
+
     name = models.CharField(
         max_length=200,
         verbose_name="Название тэга",
@@ -20,3 +22,7 @@ class Tag(models.Model):
 
     def __str__(self):
         return self.name
+
+    class Meta:
+        verbose_name = "Тэг"
+        verbose_name_plural = "Тэги"
