@@ -108,3 +108,48 @@ class RecipeIngredient(models.Model):
             name="unique ingredient recipe",
         ),
     )
+
+
+class FavoriteRecipe(models.Model):
+    user = models.ForeignKey(
+        User,
+        on_delete=models.CASCADE,
+        related_name="favorites_user",
+        verbose_name="Пользователь",
+    )
+    recipe = models.ForeignKey(
+        Recipe,
+        on_delete=models.CASCADE,
+        related_name="favorites",
+        verbose_name="Рецепт",
+    )
+
+    class Meta:
+        verbose_name = "Избранное"
+        verbose_name_plural = "Избранное"
+        constraints = [
+            models.UniqueConstraint(
+                fields=["user", "recipe"], name="unique_favorite"
+            )
+        ]
+
+
+class ShoppingCart(models.Model):
+    user = models.ForeignKey(
+        User,
+        on_delete=models.CASCADE,
+        related_name="shopping_cart",
+        verbose_name="Пользоавтель",
+    )
+    recipe = models.ForeignKey(
+        Recipe,
+        on_delete=models.CASCADE,
+        related_name="shopping_cart",
+        verbose_name="Покупка",
+    )
+    # added = models.DateTimeField(
+    #     auto_now_add=True, verbose_name="Дата добавления в список покупок"
+    # )
+
+    class Meta:
+        verbose_name = "Покупки"

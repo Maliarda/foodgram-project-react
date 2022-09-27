@@ -4,6 +4,9 @@ from users.models import User, Follow
 from rest_framework.relations import SlugRelatedField
 from rest_framework.validators import UniqueTogetherValidator
 from recipes.models import Recipe
+from django.contrib.auth import get_user_model
+
+User = get_user_model()
 
 
 class CreateUserSerializer(UserCreateSerializer):
@@ -67,7 +70,7 @@ class FollowShortRecipeSerializer(serializers.ModelSerializer):
 class FollowSerializer(serializers.ModelSerializer):
     """Сериализатор подписок."""
 
-    # is_subscribed = serializers.SerializerMethodField(read_only=True)
+    is_subscribed = serializers.SerializerMethodField(read_only=True)
     recipes = serializers.SerializerMethodField(read_only=True)
     recipes_count = serializers.SerializerMethodField(read_only=True)
 
@@ -84,23 +87,19 @@ class FollowSerializer(serializers.ModelSerializer):
             "recipes_count",
         )
 
-    # def get_is_subscribed(self, obj):
-    #     user = self.context.get("request").user
-    #     if not user:
-    #         return False
-    #     return Follow.objects.filter(user=user, author=obj).exists()
+    def get_is_subscribed(self, obj):
+        user = self.context.get("request").user
+        if not user:
+            return False
+        return Follow.objects.filter(user=user, author=obj).exists()
 
     def get_recipes(self, obj):
         request = self.context.get("request")
+        recipes = obj.recipes.all()
         recipes_limit = request.query_params.get("recipes_limit")
-        if recipes_limit is not None:
-            recipes = obj.recipes.all()[: (int(recipes_limit))]
-        else:
-            recipes = obj.recipes.all()
-        context = {"request": request}
-        return FollowShortRecipeSerializer(
-            recipes, many=True, context=context
-        ).data
+        if recipes_limit:
+            recipes = recipes[: int(recipes_limit)]
+        return FollowShortRecipeSerializer(recipes, many=True).data
 
     @staticmethod
     def get_recipes_count(obj):

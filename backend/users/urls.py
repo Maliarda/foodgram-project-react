@@ -6,9 +6,6 @@ router = DefaultRouter()
 router.register("users", CustomUserViewSet, basename="users")
 
 urlpatterns = [
-    path("", include(router.urls)),
-    path("", include("djoser.urls")),
-    path("auth/", include("djoser.urls.authtoken")),
     path(
         "users/subscriptions/", FollowListView.as_view(), name="subscriptions"
     ),
@@ -17,4 +14,7 @@ urlpatterns = [
         FollowViewSet.as_view(),
         name="subscribe",
     ),
+    path("", include(router.urls)),
+    path("", include("djoser.urls")),
+    path("auth/", include("djoser.urls.authtoken")),
 ]

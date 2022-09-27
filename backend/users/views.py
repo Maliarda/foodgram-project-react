@@ -13,6 +13,7 @@ from djoser.views import UserViewSet
 from rest_framework.views import APIView
 from rest_framework.response import Response
 from rest_framework.generics import ListAPIView, get_object_or_404
+from backend.pagination import LimitPageNumberPaginator
 
 
 class CustomUserViewSet(UserViewSet):
@@ -28,6 +29,7 @@ class FollowViewSet(APIView):
 
     serializer_class = FollowSerializer
     permission_classes = [IsAuthenticated]
+    pagination_class = LimitPageNumberPaginator
 
     def post(self, request, *args, **kwargs):
         user_id = self.kwargs.get("user_id")
