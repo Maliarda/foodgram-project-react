@@ -56,6 +56,7 @@ python -m pip install --upgrade pip
 Установить зависимости из файла requirements.txt:
 
 ```
+cd backend
 pip install -r requirements.txt
 ```
 
