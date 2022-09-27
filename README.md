@@ -66,6 +66,26 @@ pip install -r requirements.txt
 python manage.py migrate
 ```
 
+Заполните базу тестовыми данными:
+```
+python manage.py loaddata dump.json
+```
+
+Данные аккаунтов из базы:
+```
+Администратор: логин: sneakyfox@gmail.com, пароль: asdf4567
+Пользователи: логин: grumpycat@mail.ru, пароль: zxcv4567 
+логин: racoon_paws@gmail.com, пароль: asdf4567
+```
+Если вся база не нужна, можно загрузить отдельно данные об ингредиентах:
+```
+python manage.py parse_ingredients_csv
+```
+Создайте суперпользователя, если необходимо:
+```
+python manage.py createsuperuser
+```
+
 Запустить проект:
 
 ```

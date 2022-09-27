@@ -37,9 +37,7 @@ class FollowViewSet(APIView):
                 {"error": "Невозможно подписаться на самого себя"},
                 status=status.HTTP_400_BAD_REQUEST,
             )
-        if Follow.objects.filter(
-            user=request.user, author_id=user_id
-        ).exists():
+        if Follow.objects.filter(user=request.user, author_id=user_id).exists():
             return Response(
                 {"error": "Уже подписаны"},
                 status=status.HTTP_400_BAD_REQUEST,
@@ -54,9 +52,7 @@ class FollowViewSet(APIView):
     def delete(self, request, *args, **kwargs):
         user_id = self.kwargs.get("user_id")
         get_object_or_404(User, id=user_id)
-        subscription = Follow.objects.filter(
-            user=request.user, author_id=user_id
-        )
+        subscription = Follow.objects.filter(user=request.user, author_id=user_id)
         if subscription:
             subscription.delete()
             return Response(status=status.HTTP_204_NO_CONTENT)
