@@ -9,3 +9,4 @@ requests==2.28.1
 django-filter==22.1
 drf-extra-fields==3.2.1
 drf-base64==2.0
+python-dotenv==0.21.0

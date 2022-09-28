@@ -54,6 +54,11 @@ class User(AbstractUser):
         "password",
     ]
 
+    class Meta:
+        verbose_name = "Пользователь"
+        verbose_name_plural = "Пользователи"
+        ordering = ["id"]
+
     def __str__(self):
         return self.username
 
@@ -64,11 +69,6 @@ class User(AbstractUser):
     @property
     def is_admin(self):
         return self.is_superuser or self.role == self.ADMIN
-
-    class Meta:
-        verbose_name = "Пользователь"
-        verbose_name_plural = "Пользователи"
-        ordering = ["id"]
 
 
 class Follow(models.Model):
@@ -95,3 +95,6 @@ class Follow(models.Model):
                 name="unique_follow",
             ),
         )
+
+    def __str__(self):
+        return f"{self.user} подписан на {self.author}"
