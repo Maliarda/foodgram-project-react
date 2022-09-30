@@ -1,6 +1,7 @@
 from django.contrib import admin
 
-from .models import FavoriteRecipe, Ingredient, Recipe, RecipeIngredient, ShoppingCart
+from .models import (FavoriteRecipe, Ingredient, Recipe, RecipeIngredient,
+                     ShoppingCart)
 
 
 @admin.register(Ingredient)
@@ -14,7 +15,6 @@ class IngredientAdmin(admin.ModelAdmin):
 @admin.register(Recipe)
 class RecipeAdmin(admin.ModelAdmin):
     list_display = ("id", "name", "author", "amount_favorites")
-    # readonly_fields = ("amount_favorites",)
     list_filter = ("name", "author", "tags")
     search_fields = ("name",)
     empty_value_display = "-пусто-"

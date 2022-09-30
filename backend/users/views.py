@@ -1,11 +1,9 @@
 from djoser.views import UserViewSet
-from rest_framework import status
-from rest_framework.generics import get_object_or_404
-from rest_framework.permissions import IsAuthenticatedOrReadOnly
-
 from rest_framework import permissions, status
 from rest_framework.decorators import action
+from rest_framework.generics import get_object_or_404
 from rest_framework.pagination import PageNumberPagination
+from rest_framework.permissions import IsAuthenticatedOrReadOnly
 from rest_framework.response import Response
 
 from users.models import Follow, User
@@ -33,8 +31,11 @@ class CustomUserViewSet(UserViewSet):
         permission_classes=[permissions.IsAuthenticated],
     )
     def subscribe(self, request, id):
+        """Подписка/отписка на/от автора."""
         author = get_object_or_404(User, id=id)
-        serializer = FollowSerializer(data={"user": request.user.id, "author": id})
+        serializer = FollowSerializer(
+            data={"user": request.user.id, "author": id}
+        )
         if request.method == "GET":
             serializer.is_valid(raise_exception=True)
             serializer.save(user=request.user)
@@ -55,6 +56,7 @@ class CustomUserViewSet(UserViewSet):
         permission_classes=[permissions.IsAuthenticated],
     )
     def show_follows(self, request):
+        """Просмотр подписок."""
         user_obj = User.objects.filter(following__user=request.user)
         paginator = PageNumberPagination()
         paginator.page_size = 6
