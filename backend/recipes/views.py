@@ -56,19 +56,18 @@ class RecipeViewSet(viewsets.ModelViewSet):
             self.action, self.default_serializer_class
         )
 
-    def __favorite_or_shoppingcart(self, request, pk, model, serializer):
+    def __add_or_del_recipe(self, method, user, pk, model, serializer):
         """Добавление/удаление в избранное или список покупок."""
-
         recipe = get_object_or_404(Recipe, pk=pk)
-        user = request.user
-        if request.method == "POST":
-            model.objects.get_or_create(user=user, recipe=recipe)
+        # user = request.user
+        if method == "POST":
+            model.objects.get_or_create(user, recipe=recipe)
             return Response(
                 serializer.to_representation(instance=recipe),
                 status=status.HTTP_201_CREATED,
             )
-        if request.method == "DELETE":
-            model.objects.filter(user=user, recipe=recipe).delete()
+        if method == "DELETE":
+            model.objects.filter(user, recipe=recipe).delete()
             return Response(status=status.HTTP_204_NO_CONTENT)
         return Response(status=status.HTTP_400_BAD_REQUEST)
 
@@ -81,9 +80,9 @@ class RecipeViewSet(viewsets.ModelViewSet):
     )
     def favorite(self, request, pk):
         """Добавление в избранное, удаление из избранного"""
-
-        return self.__favorite_or_shoppingcart(
-            request,
+        return self.__add_or_del_recipe(
+            request.method,
+            request.user,
             pk,
             model=FavoriteRecipe,
             serializer=FavoriteRecipeSerializer(),
@@ -98,8 +97,9 @@ class RecipeViewSet(viewsets.ModelViewSet):
     )
     def shopping_cart(self, request, pk):
         """Добавление покупок в корзине, удаление покупок из корзины."""
-        return self.__favorite_or_shoppingcart(
-            request,
+        return self.__add_or_del_recipe(
+            request.method,
+            request.user,
             pk,
             model=ShoppingCart,
             serializer=ShoppingCartSerializer(),

@@ -1,9 +1,10 @@
+from django.conf import settings
 from django.http import HttpResponse
 
 
 def convert_to_file(cart_ingredients):
     """Функция для формирования списка покупок."""
-    file_name = "shoppinglist.txt"
+    file_name = settings.DOWNLOADING_CART_NAME
     shopping_cart = []
     for ing in cart_ingredients:
         name = ing["ingredient__name"]

@@ -25,7 +25,7 @@ class CustomUserViewSet(UserViewSet):
 
     @action(
         detail=True,
-        methods=["GET", "DELETE"],
+        methods=["POST", "DELETE"],
         url_path="subscribe",
         url_name="subscribe",
         permission_classes=[permissions.IsAuthenticated],
@@ -36,7 +36,7 @@ class CustomUserViewSet(UserViewSet):
         serializer = FollowSerializer(
             data={"user": request.user.id, "author": id}
         )
-        if request.method == "GET":
+        if request.method == "POST":
             serializer.is_valid(raise_exception=True)
             serializer.save(user=request.user)
             serializer = ShowFollowsSerializer(author)
@@ -59,7 +59,6 @@ class CustomUserViewSet(UserViewSet):
         """Просмотр подписок."""
         user_obj = User.objects.filter(following__user=request.user)
         paginator = PageNumberPagination()
-        paginator.page_size = 6
         result_page = paginator.paginate_queryset(user_obj, request)
         serializer = ShowFollowsSerializer(
             result_page, many=True, context={"current_user": request.user}

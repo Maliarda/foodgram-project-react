@@ -135,3 +135,5 @@ DJOSER = {
 }
 
 DEFAULT_AUTO_FIELD = "django.db.models.BigAutoField"
+
+DOWNLOADING_CART_NAME = "shopping-list.txt"
