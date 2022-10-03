@@ -24,8 +24,12 @@ class User(AbstractUser):
         unique=True,
         max_length=150,
     )
-    first_name = models.CharField(verbose_name="Имя", max_length=150, blank=True)
-    last_name = models.CharField(verbose_name="Фамилия", max_length=150, blank=True)
+    first_name = models.CharField(
+        verbose_name="Имя", max_length=150, blank=True
+    )
+    last_name = models.CharField(
+        verbose_name="Фамилия", max_length=150, blank=True
+    )
     bio = models.TextField(
         verbose_name="О себе",
         blank=True,
