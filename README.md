@@ -99,7 +99,9 @@ python manage.py runserver
 * DOCKER_PASSWORD - пароль от DockerHub;
 * DOCKER_USERNAME - имя пользователя на DockerHub;
 * HOST - ip-адрес сервера;
+* USER - пользователь для подключения;
 * SSH_KEY - приватный ssh ключ (публичный должен быть на сервере);
+* PASSPHRASE - если используете пароль для ssh;
 * TELEGRAM_TO - id своего телеграм-аккаунта (можно узнать у @userinfobot, команда /start)
 * TELEGRAM_TOKEN - токен бота (получить токен можно у @BotFather, /token, имя бота)
 
