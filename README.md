@@ -161,7 +161,7 @@ docker-compose exec web python manage.py migrate --noinput
 ```
 Заполните базу тестовыми данными:
 ```
-docker-compose exec web python manage.py loaddata fixtures.json
+docker-compose exec web python manage.py loaddata dump.json
 ```
 
 Создайте суперпользователя, если необходимо:
