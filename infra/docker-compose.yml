@@ -40,10 +40,10 @@ services:
       - static_value:/var/html/static/
       - media_value:/var/html/media
     depends_on:
-     - backend
-     - frontend
+      - backend
+      - frontend
   
-  volumes:
-    static_value:
-    media_value:
-    db_value:
+volumes:
+  static_value:
+  media_value:
+  db_value:
