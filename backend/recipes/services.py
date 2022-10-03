@@ -4,7 +4,6 @@ from django.http import HttpResponse
 
 def convert_to_file(cart_ingredients):
     """Функция для формирования списка покупок."""
-    file_name = settings.DOWNLOADING_CART_NAME
     shopping_cart = []
     for ing in cart_ingredients:
         name = ing["ingredient__name"]
@@ -15,5 +14,7 @@ def convert_to_file(cart_ingredients):
     content = "\n".join(shopping_cart)
     content_type = "text/plain,charset=utf8"
     response = HttpResponse(content, content_type=content_type)
-    response["Content-Disposition"] = f"attachment; filename={file_name}"
+    response[
+        "Content-Disposition"
+    ] = f"attachment; filename={settings.DOWNLOADING_CART_NAME}"
     return response

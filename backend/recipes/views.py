@@ -59,7 +59,6 @@ class RecipeViewSet(viewsets.ModelViewSet):
     def __add_or_del_recipe(self, method, user, pk, model, serializer):
         """Добавление/удаление в избранное или список покупок."""
         recipe = get_object_or_404(Recipe, pk=pk)
-        # user = request.user
         if method == "POST":
             model.objects.get_or_create(user, recipe=recipe)
             return Response(
