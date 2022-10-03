@@ -22,7 +22,7 @@ services:
       - ./.env
 
   frontend:
-    image: maliarda/foodgrafrontend:latest
+    image: maliarda/foodgramfrontend:latest
     volumes:
       - ../frontend/:/app/result_build/
     depends_on:
