@@ -107,6 +107,14 @@ python manage.py runserver
 
 В директории infra необходимо создать файл .env и заполнить его:
 
+DB_ENGINE=django.db.backends.postgresql  # движок БД
+DB_NAME=postgres  # имя БД
+POSTGRES_USER=postgres  # логин для подключения к БД
+POSTGRES_PASSWORD=postgres  # пароль для подключения к БД
+DB_HOST=db  # название контейнера
+DB_PORT=5432  # порт для подключения к БД
+ALLOWED_HOSTS=*, localhost # указываем разрешенные хосты
+SECRET_KEY=key # секретный ключ приложения django
 
 ### Проверка работоспособности
 
