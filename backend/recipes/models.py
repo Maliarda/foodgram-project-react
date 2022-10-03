@@ -16,7 +16,9 @@ class Ingredient(models.Model):
         verbose_name="Название ингредиента",
     )
 
-    measurement_unit = models.CharField(max_length=10, verbose_name="Единица измерения")
+    measurement_unit = models.CharField(
+        max_length=10, verbose_name="Единица измерения"
+    )
 
     class Meta:
         ordering = ["id"]
@@ -51,7 +53,9 @@ class Recipe(models.Model):
     text = models.TextField(verbose_name="Описание рецепта")
     cooking_time = models.PositiveSmallIntegerField(
         validators=[
-            MinValueValidator(1, message="Время приготовления должно быть больше 0"),
+            MinValueValidator(
+                1, message="Время приготовления должно быть больше 0"
+            ),
         ],
         verbose_name="Время приготовления (в минутах)",
     )
@@ -61,7 +65,9 @@ class Recipe(models.Model):
         related_name="recipes",
         verbose_name="Автор рецепта",
     )
-    pub_date = models.DateTimeField(verbose_name="Дата публикации", auto_now_add=True)
+    pub_date = models.DateTimeField(
+        verbose_name="Дата публикации", auto_now_add=True
+    )
 
     class Meta:
         ordering = ["-pub_date"]
@@ -89,7 +95,9 @@ class RecipeIngredient(models.Model):
         verbose_name="Ингредиент",
     )
     amount = models.PositiveSmallIntegerField(
-        validators=(MinValueValidator(1, message="Укажите количество больше нуля!"),),
+        validators=(
+            MinValueValidator(1, message="Укажите количество больше нуля!"),
+        ),
         verbose_name="Количество ингредиента",
     )
 
@@ -130,7 +138,9 @@ class FavoriteRecipe(models.Model):
         verbose_name = "Избранное"
         verbose_name_plural = "Избранное"
         constraints = [
-            models.UniqueConstraint(fields=["user", "recipe"], name="unique_favorite")
+            models.UniqueConstraint(
+                fields=["user", "recipe"], name="unique_favorite"
+            )
         ]
 
     def __str__(self):
