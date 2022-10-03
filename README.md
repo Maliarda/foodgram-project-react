@@ -78,7 +78,7 @@ python manage.py loaddata dump.json
 Пользователи: логин: grumpycat@mail.ru, пароль: zxcv4567 
 логин: racoon_paws@gmail.com, пароль: asdf4567
 ```
-Если вся база не нужна, можно загрузить отдельно данные об ингредиентах:
+Если вся база не нужна, есть возможность загрузить отдельно данные об ингредиентах:
 ```
 python manage.py parse_ingredients_csv
 ```
