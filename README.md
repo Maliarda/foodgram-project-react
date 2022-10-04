@@ -165,6 +165,7 @@ docker-compose exec backend python manage.py loaddata dump.json
 ```
 
 Теперь у Вас готовый проект с небольшой базой рецептов и пользователей.
+
 Данные для входа:
 ```
 Администратор: логин: sneakyfox@gmail.com, пароль: asdf4567
