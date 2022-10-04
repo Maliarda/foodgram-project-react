@@ -174,7 +174,7 @@ docker-compose exec backend python manage.py loaddata dump.json
 логин: racoon_paws@gmail.com, пароль: asdf4567
 ```
 
-Создайте своего суперпользователя, если необходимо:
+Создайте суперпользователя, если необходимо:
 ```
 docker-compose exec backend python manage.py createsuperuser
 ```
