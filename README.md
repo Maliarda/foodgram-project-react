@@ -168,7 +168,8 @@ docker-compose exec backend python manage.py loaddata dump.json
 Данные для входа:
 ```
 Администратор: логин: sneakyfox@gmail.com, пароль: asdf4567
-Пользователи: логин: grumpycat@mail.ru, пароль: zxcv4567 
+Пользователи: 
+логин: grumpycat@mail.ru, пароль: zxcv4567 
 логин: racoon_paws@gmail.com, пароль: asdf4567
 ```
 
