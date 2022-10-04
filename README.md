@@ -164,6 +164,15 @@ docker-compose exec backend python manage.py migrate --noinput
 docker-compose exec backend python manage.py loaddata dump.json
 ```
 
-Создайте суперпользователя, если необходимо:
+Теперь у Вас готовый проект с небольшой базой рецептов и пользователей.
+Данные для входа:
+```
+Администратор: логин: sneakyfox@gmail.com, пароль: asdf4567
+Пользователи: логин: grumpycat@mail.ru, пароль: zxcv4567 
+логин: racoon_paws@gmail.com, пароль: asdf4567
+```
+
+Создайте своего суперпользователя, если необходимо:
 ```
 docker-compose exec backend python manage.py createsuperuser
+```
