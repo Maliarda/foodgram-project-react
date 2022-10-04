@@ -68,7 +68,7 @@ jobs:
           stack_file_name: docker-compose.yaml
           script: |
             sudo docker compose stop
-            sudo docker compose rm web
+            sudo docker compose rm backend
             sudo docker pull maliarda/foogrambackend:latest
             sudo docker pull maliarda/foodgramfrontend:latest
             touch .env
