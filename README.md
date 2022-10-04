@@ -166,4 +166,4 @@ docker-compose exec backend python manage.py loaddata dump.json
 
 Создайте суперпользователя, если необходимо:
 ```
-docker-compose exec web python manage.py createsuperuser
+docker-compose exec backend python manage.py createsuperuser
