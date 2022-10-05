@@ -79,7 +79,7 @@ class Recipe(models.Model):
 
 
 class RecipeIngredient(models.Model):
-    """Ингридент в рецепте, модель связи."""
+    """Ингредиент в рецепте, модель связи."""
 
     recipe = models.ForeignKey(
         Recipe,
