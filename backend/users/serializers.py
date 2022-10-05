@@ -93,7 +93,8 @@ class ShowFollowsSerializer(CustomUserSerializer):
         return FollowShortRecipeSerializer(recipes, many=True).data
 
     def get_recipes_count(self, obj):
-        return Recipe.objects.filter(author=obj).count()
+        recipes = Recipe.objects.filter(author=obj)
+        return recipes.count()
 
 
 class FollowSerializer(serializers.ModelSerializer):
