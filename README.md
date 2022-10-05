@@ -1,4 +1,6 @@
-![Build Status](https://github.com/maliarda/foodgram-project-react/workflows/main/badge.svg)
+![Build Status](https://github.com/maliarda/foodgram-project-react/workflows/main.yml/badge.svg)
+
+
 Проект доступен по адресу: http://51.250.108.4/
 # Foodgram, «Продуктовый помощник»
 

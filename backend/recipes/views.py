@@ -60,13 +60,13 @@ class RecipeViewSet(viewsets.ModelViewSet):
         """Добавление/удаление в избранное или список покупок."""
         recipe = get_object_or_404(Recipe, pk=pk)
         if method == "POST":
-            model.objects.get_or_create(user, recipe=recipe)
+            model.objects.get_or_create(user=user, recipe=recipe)
             return Response(
                 serializer.to_representation(instance=recipe),
                 status=status.HTTP_201_CREATED,
             )
         if method == "DELETE":
-            model.objects.filter(user, recipe=recipe).delete()
+            model.objects.filter(user=user, recipe=recipe).delete()
             return Response(status=status.HTTP_204_NO_CONTENT)
         return Response(status=status.HTTP_400_BAD_REQUEST)
 
