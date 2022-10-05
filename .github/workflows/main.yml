@@ -1,4 +1,4 @@
-name: foodgram workflow
+name: foodgram_workflow
 
 on: [push]
 
@@ -67,7 +67,7 @@ jobs:
           passphrase: ${{ secrets.PASSPHRASE }}
           stack_file_name: docker-compose.yaml
           script: |
-            sudo docker pull maliarda/foogrambackend:latest
+            sudo docker pull maliarda/foodgrambackend:latest
             sudo docker pull maliarda/foodgramfrontend:latest
             sudo docker compose stop
             sudo docker compose rm backend
